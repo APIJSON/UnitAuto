@@ -3,11 +3,11 @@
 </h1>
  
 <p align="center">☀️ 机器学习单元测试平台</p>
-<p align="center">零代码、全方位、自动化 测试 方法/函数 的正确性和可用性</p>
+<p align="center">零代码、全方位、自动化 测试 方法/函数 的性能、正确性和可用性</p>
 <p align="center" >
   <a href="https://github.com/TommyLemon/UnitAuto#%E9%83%A8%E7%BD%B2%E6%96%B9%E6%B3%95">使用文档</a>
   <a href="https://www.bilibili.com/video/BV1Tk4y1R7Yo">视频教程</a>
-  <a href="http://apijson.org/unit">在线体验</a>
+  <a href="http://apijson.cn/unit">在线体验</a>
 </p>
 
 <p align="center" >
@@ -16,7 +16,8 @@
 
 ---
 
-机器学习单元测试平台，零代码、全方位、自动化 测试 方法/函数 的正确性和可用性
+机器学习单元测试平台，零代码、全方位、自动化 测试 方法/函数 的性能、正确性和可用性。<br />
+腾讯 IEG(互动娱乐事业群) toB, toC 两个项目使用中。
 
 
 ### 特点优势
@@ -85,8 +86,8 @@ UnitAuto 会自动生成测试参数，并执行方法，拿到返回值等进�
 ### 示例项目
 [UnitAuto Java 后端 Server](https://github.com/TommyLemon/UnitAuto/tree/master/UnitAuto-Java-Demo)    在线 [测试](http://apijson.org:8000/unit/) <br />
 [APIJSON Java 后端 Server](https://github.com/APIJSON/APIJSON-Demo/blob/master/APIJSON-Java-Server/APIJSONBoot)    在线 [测试](http://apijson.org/unit/) <br />
-[UnitAuto Android 客户端 App](https://github.com/TommyLemon/UnitAuto/tree/master/UnitAuto-Android)    直接 [下载](https://files.cnblogs.com/files/tommylemon/UnitAutoDemo.apk) （第一次可能失败，返回报错 JSON，一般重试一次就可以）<br />
-[APIJSON Android 客户端 App](https://github.com/APIJSON/APIJSON-Demo/blob/master/APIJSON-Android/APIJSONTest)    直接 [下载](http://files.cnblogs.com/files/tommylemon/APIJSONTest.apk) （第一次可能失败，返回报错 JSON，一般重试一次就可以）
+[UnitAuto Android 客户端 App](https://github.com/TommyLemon/UnitAuto/tree/master/UnitAuto-Android)    直接 [下载](https://github.com/TommyLemon/UnitAuto/releases/download/2.6.0/UnitAutoApp.apk) （第一次可能失败，返回报错 JSON，一般重试一次就可以）<br />
+[APIJSON Android 客户端 App](https://github.com/APIJSON/APIJSON-Demo/blob/master/APIJSON-Android/APIJSONTest)    直接 [下载](https://github.com/TommyLemon/UnitAuto/releases/download/2.5.0/APIJSONTest.apk) （第一次可能失败，返回报错 JSON，一般重试一次就可以）
 <br />
 <br />
 
@@ -122,8 +123,8 @@ https://github.com/TommyLemon/UnitAuto/tree/master/UnitAuto-Java-Demo/libs <br /
 ##### 3.提供接口给 UnitAuto 后台管理工具
 Controller 提供两个 POST application/json 格式的 HTTP API，分别是
 ```
-/method/list    动态扫描方法，可以单纯接收入参并转到发 MethodUtil.listMethod(String request)
-/method/invoke  动态执行方法，可以单纯接收入参并转到发 MethodUtil.invokeMethod(String request, Object instance, Listener<JSONObject> listener)
+/method/list    动态扫描方法，可以单纯接收入参并转发到 MethodUtil.listMethod(String request)
+/method/invoke  动态执行方法，可以单纯接收入参并转发到 MethodUtil.invokeMethod(String request, Object instance, Listener<JSONObject> listener)
 ```
 参考 [DemoController](https://github.com/TommyLemon/UnitAuto/blob/master/UnitAuto-Java-Demo/src/main/java/unitauto/demo/controller/DemoController.java) <br />
 <br />
@@ -201,7 +202,7 @@ dependencies {
 
 ### 部署后台管理工具
 可以直接[下载源码](https://github.com/TommyLemon/UnitAuto/archive/master.zip)解压后用浏览器打开 [UnitAuto-Admin](https://github.com/TommyLemon/UnitAuto/tree/master/UnitAuto-Admin)/index.html，建议用 Chrome 或 火狐 (Safari、Edge、IE 等可能有兼容问题)。<br />
-也可以直接访问官网的线上环境 http://apijson.org/unit 或开发环境 http://apijson.org:8000/unit 。<br />
+也可以直接访问官网的线上环境 http://apijson.cn/unit 或开发环境 http://apijson.org:8000/unit 。<br />
 <br />
 点右上角设置项 "项目服务器地址 URL"，把输入框内基地址改为你主机的地址(例如 http://192.168.0.102:8080 )<br />
 <br />
@@ -239,7 +240,7 @@ https://github.com/APIJSON/APIJSON-Demo/tree/master/APIJSON-Java-Server
 ### 其它项目
 [APIJSON](https://github.com/TommyLemon/APIJSON) 腾讯零代码、热更新、自动化 ORM 库 🏆 后端接口和文档自动化，前端(客户端) 定制返回 JSON 的数据和结构
 <br />
-[APIAuto](https://github.com/TommyLemon/APIAuto) 机器学习测试、自动生成代码、自动静态检查、自动生成文档与注释等，做最先进的 HTTP 接口管理工具
+[APIAuto](https://github.com/TommyLemon/APIAuto) 敏捷开发最强大易用的 HTTP 接口工具，机器学习零代码测试、生成代码与静态检查、生成文档与光标悬浮注释
 <br />
 <br />
 
