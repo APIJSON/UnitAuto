@@ -307,41 +307,67 @@ public class MethodUtil {
 	/**执行方法
 	 * @param req :
 	 {
-	    "ui": false,  //放 UI 线程执行
-	    "timeout": 0,  //超时时间
-		"package": "apijson.demo.server",
-		"class": "DemoFunction",
+ 	        "static": false,  //是否为静态方法，false 时可能会用 constructor & classArgs 来初始化一个类的实例或用 this 直接反序列化成一个类的实例
+	        "ui": false,  //放 UI 线程执行，仅 Android 可用
+	        "timeout": 0,  //超时时间
+		"package": "apijson.demo.server",  //被测方法所在的包名
+		"class": "DemoFunction",  //被测方法所在的类名
 		"constructor": "getInstance",  //如果是类似单例模式的类，不能用默认构造方法，可以自定义获取实例的方法，传参仍用 classArgs
-		"classArgs": [
-			null,
+		"classArgs": [  //构造方法的参数值，可以和 methodArgs 结构一样。这里用了简化形式，只传值不传类型，注意简化形式只能在所有值完全符合构造方法的类型定义时才可用
+			null,  
 			null,
 			0,
 			null
 		],
-		"method": "plus",
-		"methodArgs": [
+		"this": {  //当前类示例，和 constructor & classArgs 二选一
+			"type": "apijson.demo.server.model.User",  //不可缺省，且必须全称
+			"value": {  //User 的示例值，会根据 type 来转为 Java 类型，这里执行等价于 JSON.parseObject(JSON.toJSONString(value), User.class)
+				"id": 1,
+				"name": "Tommy"
+			}
+		},
+		"method": "plus",  //被测方法名
+		"methodArgs": [  //被测方法的参数值
 			{
-				"type": "Integer",  //可缺省，自动根据 value 来判断
+				"type": "Integer",  //Boolean, Integer, Number, String, JSONObject, JSONArray 都可缺省，自动根据 value 来判断
 				"value": 1
 			},
 			{
-				"type": "String",
+				"type": "String",  //可缺省，自动根据 value 来判断
 				"value": "APIJSON"
 			},
 			{
-				"type": "JSONObject",  //可缺省，JSONObject 已缓存到 CLASS_MAP
+				"type": "JSONObject",  //可缺省，JSONObject 已缓存到 CLASS_MAP，也可以写全称 com.alibaba.fastjson.JSONObject
 				"value": {}
 			},
 			{
-				"type": "apijson.demo.server.model.User",  //不可缺省，且必须全称
-				"value": {
-					"id": 1,
-					"name": "Tommy"
-				}
+				"type": "int[]",  //不可缺省，且必须全称
+				"value": [1, 2, 3]
+			},
+			{
+				"type": "java.util.List<apijson.demo.server.model.User>",  //不可缺省，且必须全称
+				"value": [  //TODO 未验证，可能需要解析 type，改用 JSON.parseArray(JSON.toJSONString(value), User.class)，或遍历和递归子项来逐个用 TypeUtils.cast
+					{  //apijson.demo.server.model.User
+						"id": 1,
+						"name": "Tommy"
+					},
+					{  //apijson.demo.server.model.User
+						"id": 2,
+						"name": "Lemon"
+					}
+				]
 			},
 			{
 				"type": "android.content.Context",  //不可缺省，且必须全称
 				"reuse": true  //复用实例池 INSTANCE_MAP 里的
+			},
+			{
+			    "type": "unitauto.test.TestUtil$Callback",  //interface 示例，注意内部类用 $ 隔开外部类名和内部类名
+			    "value": {
+				"setData(D)": {  //回调方法签名
+				    "callback": true  //设置为最终回调方法，会自动等待它被调用，并自动记录回调的时间点和传入参数值
+				}
+			    }
 			}
 		]
 	 }
