@@ -16,16 +16,13 @@ package unitauto;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.GenericArrayType;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
+import java.lang.reflect.*;
 import java.sql.Timestamp;
+import java.util.AbstractCollection;
+import java.util.AbstractList;
+import java.util.AbstractMap;
+import java.util.AbstractSequentialList;
+import java.util.AbstractSet;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -33,13 +30,24 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.NavigableMap;
+import java.util.NavigableSet;
 import java.util.Objects;
+import java.util.Queue;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.SortedSet;
+import java.util.Stack;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.TreeMap;
+import java.util.TreeSet;
+import java.util.Vector;
 import java.util.concurrent.TimeoutException;
 
 import com.alibaba.fastjson.JSON;
@@ -105,6 +113,7 @@ public class MethodUtil {
 	public static int CODE_SERVER_ERROR = 500;
 	public static String MSG_SUCCESS = "success";
 
+	public static String KEY_REUSE = "reuse";
 	public static String KEY_UI = "ui";
 	public static String KEY_TIME = "time";
 	public static String KEY_TIMEOUT = "timeout";
@@ -118,15 +127,24 @@ public class MethodUtil {
 	public static String KEY_STATIC = "static";
 	public static String KEY_NAME = "name";
 	public static String KEY_METHOD = "method";
+	public static String KEY_TRACE = "trace";
 	public static String KEY_MOCK = "mock";
+	public static String KEY_QUERY = "query";
 	public static String KEY_RETURN = "return";
 	public static String KEY_TIME_DETAIL = "time:start|duration|end";
 	public static String KEY_CLASS_ARGS = "classArgs";
 	public static String KEY_METHOD_ARGS = "methodArgs";
 	public static String KEY_CALLBACK = "callback";
+	public static String KEY_GLOBAL = "global";
 
 	public static String KEY_CALL_LIST = "call()[]";
 	public static String KEY_CALL_MAP = "call(){}";
+	public static String KEY_PACKAGE_TOTAL = "packageTotal";
+	public static String KEY_CLASS_TOTAL = "classTotal";
+	public static String KEY_METHOD_TOTAL = "methodTotal";
+	public static String KEY_PACKAGE_LIST = "packageList";
+	public static String KEY_CLASS_LIST = "classList";
+	public static String KEY_METHOD_LIST = "methodList";
 
 
 
@@ -177,6 +195,8 @@ public class MethodUtil {
 
 
 
+	@NotNull
+	public static Map<Class<?>, InterfaceProxy> GLOBAL_CALLBACK_MAP;
 	//  Map<class, <constructorArgs, instance>>
 	public static final Map<Class<?>, Map<Object, Object>> INSTANCE_MAP;
 	public static final Map<String, Class<?>> PRIMITIVE_CLASS_MAP;
@@ -184,6 +204,7 @@ public class MethodUtil {
 	public static final Map<String, Class<?>> CLASS_MAP;
 	public static final Map<Class<?>, Object> DEFAULT_TYPE_VALUE_MAP;
 	static {
+		GLOBAL_CALLBACK_MAP = new HashMap<>();
 		INSTANCE_MAP = new HashMap<>();
 
 		PRIMITIVE_CLASS_MAP = new HashMap<String, Class<?>>();
@@ -224,12 +245,28 @@ public class MethodUtil {
 		CLASS_MAP.put(Array[].class.getSimpleName(), Array[].class);
 
 		CLASS_MAP.put(Collection.class.getSimpleName(), Collection.class);//不允许指定<T>
+		CLASS_MAP.put(AbstractCollection.class.getSimpleName(), AbstractCollection.class);//不允许指定<T>
 		CLASS_MAP.put(List.class.getSimpleName(), List.class);//不允许指定<T>
+		CLASS_MAP.put(AbstractList.class.getSimpleName(), AbstractList.class);//不允许指定<T>
 		CLASS_MAP.put(ArrayList.class.getSimpleName(), ArrayList.class);//不允许指定<T>
+		CLASS_MAP.put(AbstractSequentialList.class.getSimpleName(), AbstractSequentialList.class);//不允许指定<T>
+		CLASS_MAP.put(LinkedList.class.getSimpleName(), LinkedList.class);//不允许指定<T>
+		CLASS_MAP.put(Vector.class.getSimpleName(), Vector.class);//不允许指定<T>
+		CLASS_MAP.put(Stack.class.getSimpleName(), Stack.class);//不允许指定<T>
 		CLASS_MAP.put(Map.class.getSimpleName(), Map.class);//不允许指定<T>
+		CLASS_MAP.put(AbstractMap.class.getSimpleName(), AbstractMap.class);//不允许指定<T>
 		CLASS_MAP.put(HashMap.class.getSimpleName(), HashMap.class);//不允许指定<T>
+		CLASS_MAP.put(LinkedHashMap.class.getSimpleName(), LinkedHashMap.class);//不允许指定<T>
+		CLASS_MAP.put(SortedMap.class.getSimpleName(), SortedMap.class);//不允许指定<T>
+		CLASS_MAP.put(NavigableMap.class.getSimpleName(), NavigableMap.class);//不允许指定<T>
+		CLASS_MAP.put(TreeMap.class.getSimpleName(), TreeMap.class);//不允许指定<T>
 		CLASS_MAP.put(Set.class.getSimpleName(), Set.class);//不允许指定<T>
+		CLASS_MAP.put(AbstractSet.class.getSimpleName(), AbstractSet.class);//不允许指定<T>
 		CLASS_MAP.put(HashSet.class.getSimpleName(), HashSet.class);//不允许指定<T>
+		CLASS_MAP.put(LinkedHashSet.class.getSimpleName(), LinkedHashSet.class);//不允许指定<T>
+		CLASS_MAP.put(SortedSet.class.getSimpleName(), SortedSet.class);//不允许指定<T>
+		CLASS_MAP.put(NavigableSet.class.getSimpleName(), NavigableSet.class);//不允许指定<T>
+		CLASS_MAP.put(TreeSet.class.getSimpleName(), TreeSet.class);//不允许指定<T>
 
 		CLASS_MAP.put(JSON.class.getSimpleName(), JSON.class);//必须有，Map中没有getLongValue等方法
 		CLASS_MAP.put(JSONObject.class.getSimpleName(), JSONObject.class);//必须有，Map中没有getLongValue等方法
@@ -244,6 +281,7 @@ public class MethodUtil {
 	 * @param request :
 	 {
 	    "mock": true,
+	    "query": 0,  // 0-数据，1-总数，2-全部
 		"package": "apijson.demo.server",
 		"class": "DemoFunction",
 		"method": "plus",
@@ -260,6 +298,7 @@ public class MethodUtil {
 			if (req  == null) {
 				req = new JSONObject(true);
 			}
+			int query = req.getIntValue(KEY_QUERY);
 			boolean mock = req.getBooleanValue(KEY_MOCK);
 			String pkgName = req.getString(KEY_PACKAGE);
 			String clsName = req.getString(KEY_CLASS);
@@ -281,9 +320,9 @@ public class MethodUtil {
 				}
 			}
 
-			JSONArray list = getMethodListGroupByClass(pkgName, clsName, methodName, argTypes, mock);
+			JSONObject obj = getMethodListGroupByClass(pkgName, clsName, methodName, argTypes, query, mock);
 			result = JSON_CALLBACK.newSuccessResult();
-			result.put("classList", list);  //序列化 Class	只能拿到 name		result.put("Class[]", JSON.parseArray(JSON.toJSONString(classlist)));
+			result.putAll(obj);  //序列化 Class	只能拿到 name		result.put("Class[]", JSON.parseArray(JSON.toJSONString(classlist)));
 		}
 		catch (Throwable e) {
 			e.printStackTrace();
@@ -307,9 +346,9 @@ public class MethodUtil {
 	/**执行方法
 	 * @param req :
 	 {
- 	        "static": false,  //是否为静态方法，false 时可能会用 constructor & classArgs 来初始化一个类的实例或用 this 直接反序列化成一个类的实例
-	        "ui": false,  //放 UI 线程执行，仅 Android 可用
-	        "timeout": 0,  //超时时间
+		"static": false,  //是否为静态方法，false 时可能会用 constructor & classArgs 来初始化一个类的实例或用 this 直接反序列化成一个类的实例
+		"ui": false,  //放 UI 线程执行，仅 Android 可用
+		"timeout": 0,  //超时时间
 		"package": "apijson.demo.server",  //被测方法所在的包名
 		"class": "DemoFunction",  //被测方法所在的类名
 		"constructor": "getInstance",  //如果是类似单例模式的类，不能用默认构造方法，可以自定义获取实例的方法，传参仍用 classArgs
@@ -346,7 +385,7 @@ public class MethodUtil {
 			},
 			{
 				"type": "java.util.List<apijson.demo.server.model.User>",  //不可缺省，且必须全称
-				"value": [  //TODO 未验证，可能需要解析 type，改用 JSON.parseArray(JSON.toJSONString(value), User.class)，或遍历和递归子项来逐个用 TypeUtils.cast
+				"value": [  //TODO 未验证，可能需要解析 type，改用 JSON.parseArray(JSON.toJSONString(value), User.class)，或遍历和递归子项来逐个用 cast
 					{  //apijson.demo.server.model.User
 						"id": 1,
 						"name": "Tommy"
@@ -364,9 +403,9 @@ public class MethodUtil {
 			{
 			    "type": "unitauto.test.TestUtil$Callback",  //interface 示例，注意内部类用 $ 隔开外部类名和内部类名
 			    "value": {
-				"setData(D)": {  //回调方法签名
-				    "callback": true  //设置为最终回调方法，会自动等待它被调用，并自动记录回调的时间点和传入参数值
-				}
+					"setData(D)": {  //回调方法签名
+					    "callback": true  //设置为最终回调方法，会自动等待它被调用，并自动记录回调的时间点和传入参数值
+					}
 			    }
 			}
 		]
@@ -384,6 +423,7 @@ public class MethodUtil {
 		String clsName = req.getString(KEY_CLASS);
 		String cttName = req.getString(KEY_CONSTRUCTOR);
 		String methodName = req.getString(KEY_METHOD);
+		Boolean trace = req.getBoolean(KEY_TRACE);
 
 		long startTime = System.currentTimeMillis();
 		try {
@@ -417,17 +457,17 @@ public class MethodUtil {
 
 			if (instance == null && static_ == false) {
 				if (StringUtil.isEmpty(cttName, true)) {
-					instance = INSTANCE_GETTER.getInstance(clazz, clsArgs, null);
+					instance = INSTANCE_GETTER.getInstance(clazz, clsArgs, req.getBoolean(KEY_REUSE));
 				}
 				else {
-					instance = getInvokeResult(clazz, null, cttName, clsArgs, null);
+					instance = getInvokeResult(clazz, null, cttName, clsArgs, null, null);
 				}
 			}
 
 			if (timeout < 0 || timeout > 60000) {
 				throw new IllegalArgumentException("参数 " + KEY_TIMEOUT + " 的值不合法！只能在 [0, 60000] 范围内！");
 			}
-			
+
 			if (timeout > 0) {
 				final Timer timer = new Timer();
 				timer.schedule(new TimerTask() {
@@ -438,13 +478,59 @@ public class MethodUtil {
 						catch (Throwable e) {
 							e.printStackTrace();
 						}
-						
-						completeWithError(pkgName, clsName, methodName, startTime, new TimeoutException("处理超时，应该在期望时间 " + timeout + "ms 内！"), listener);
+
+						completeWithError(pkgName, clsName, methodName, startTime, new TimeoutException("处理超时，应该在期望时间 " + timeout + "ms 内！"), listener, trace);
 					}
 				}, timeout, Long.MAX_VALUE);
 			}
-			
-			invokeMethod(clazz, instance, pkgName, clsName, methodName, methodArgs, listener);
+
+
+			InterfaceProxy globalInterfaceProxy = GLOBAL_CALLBACK_MAP.get(clazz);
+			boolean hasGlobalCallback = globalInterfaceProxy != null;
+
+			//			if (globalInterfaceProxy == null) {
+			Set<Entry<String, Object>> set = req.entrySet();
+			for (Entry<String, Object> e : set) {
+				//判断是否符合 "fun(arg0,arg1...)": { "callback": true } 格式
+				String key = e == null ? null : e.getKey();
+				JSONObject val = key != null && e.getValue() instanceof JSONObject ? ((JSONObject) e.getValue()) : null;
+
+				int index = val == null || key.endsWith(")") == false ? -1 : key.indexOf("(");
+				if (index > 0 && StringUtil.isName(key.substring(0, index))) {
+					boolean isCb = val.getBooleanValue(KEY_CALLBACK);
+					if (isCb) {
+						hasGlobalCallback = true;
+					}
+					if (globalInterfaceProxy == null) {
+						globalInterfaceProxy = new InterfaceProxy();
+					}
+
+					final JSONObject finalReq = req;
+					final InterfaceProxy globalProxy = globalInterfaceProxy;
+					globalInterfaceProxy.$_putCallback(key, new Listener<Object>() {
+
+						@Override
+						public void complete(Object data, Method method, InterfaceProxy proxy, Object... extras) throws Exception {
+							Log.d(TAG, "invokeMethod  LISTENER_QUEUE.poll " + method);
+							if (isCb && listener != null) {
+								//									JSONObject result = new JSONObject();
+								//									result.put(method == null ? null : method.toString(), data);
+								//									listener.complete(result, method, proxy, extras);
+
+								finalReq.putAll(globalProxy);
+								listener.complete(finalReq, method, proxy, extras);
+							}
+						}
+					});
+				}
+			}
+			//			}
+
+			if (globalInterfaceProxy != null && GLOBAL_CALLBACK_MAP.containsValue(globalInterfaceProxy) == false) {
+				GLOBAL_CALLBACK_MAP.put(clazz, globalInterfaceProxy);
+			}
+
+			invokeMethod(clazz, instance, pkgName, clsName, methodName, methodArgs, listener, hasGlobalCallback ? globalInterfaceProxy : null, trace);
 
 			// 后端服务只允许在当前线程执行，只有客户端才允许设置在 UI 线程(主线程) 执行
 			//			if (threadStr == null || THREAD_CURRENT_STRING.equals(threadStr) || THREAD_MAIN_STRING.equals(threadStr)) {
@@ -477,13 +563,13 @@ public class MethodUtil {
 			//			}
 		}
 		catch (Throwable e) {
-			completeWithError(pkgName, clsName, methodName, startTime, e, listener);
+			completeWithError(pkgName, clsName, methodName, startTime, e, listener, trace);
 		}
 	}
 
 
 	public static void invokeMethod(Class<?> clazz, final Object instance, String pkgName, String clsName
-			, String methodName, List<Argument> methodArgs, Listener<JSONObject> listener) throws Exception {
+			, String methodName, List<Argument> methodArgs, Listener<JSONObject> listener, InterfaceProxy globalInterfaceProxy, Boolean trace) throws Exception {
 
 		long startTime = System.currentTimeMillis();
 		try {
@@ -500,16 +586,23 @@ public class MethodUtil {
 						result.put(KEY_THIS, parseJSON(instance.getClass(), instance)); //TODO InterfaceProxy proxy 改成泛型 I instance ？
 					}
 
-					listener.complete(result);
+					if (trace != null && trace) {
+						Thread thread = Thread.currentThread();
+						result.put(KEY_TRACE, thread.getStackTrace());
+					}
+
+					if (listener != null) {
+						listener.complete(result);
+					}
 				}
-			});
+			}, globalInterfaceProxy);
 		}
 		catch (Throwable e) {
-			completeWithError(pkgName, clsName, methodName, startTime, e, listener);
+			completeWithError(pkgName, clsName, methodName, startTime, e, listener, trace);
 		}
 	}
 
-	private static void completeWithError(String pkgName, String clsName, String methodName, long startTime, Throwable e, Listener<JSONObject> listener) {
+	private static void completeWithError(String pkgName, String clsName, String methodName, long startTime, Throwable e, Listener<JSONObject> listener, Boolean trace) {
 		long endTime = System.currentTimeMillis();
 		e.printStackTrace();
 		if (e instanceof NoSuchMethodException) {
@@ -533,13 +626,17 @@ public class MethodUtil {
 		result.put(KEY_TIME_DETAIL, startTime + "|" + duration + "|" + endTime);
 		result.put("throw", throwName);
 		result.put("cause", e.getCause());
-		result.put("trace", e.getStackTrace());
-
-		try {
-			listener.complete(result);
+		if (trace == null || trace) {
+			result.put(KEY_TRACE, e.getStackTrace());
 		}
-		catch (Exception e1) {
-			e1.printStackTrace();
+
+		if (listener != null) {
+			try {
+				listener.complete(result);
+			}
+			catch (Exception e1) {
+				e1.printStackTrace();
+			}
 		}
 	}
 
@@ -627,20 +724,20 @@ public class MethodUtil {
 					throw new IllegalArgumentException("@interface " + clazz.getName() + " 没有构造参数，对应的 classArgs 数量只能是 0！");
 				}
 
-				boolean exactContructor = false;  //指定某个构造方法，只要某一项 type 不为空就是
+				boolean exactConstructor = false;  //指定某个构造方法，只要某一项 type 不为空就是
 				for (int i = 0; i < classArgs.size(); i++) {
 					Argument obj = classArgs.get(i);
 					if (obj != null && isEmpty(obj.getType(), true) == false) {
-						exactContructor = true;
+						exactConstructor = true;
 						break;
 					}
 				}
 
 				Class<?>[] classArgTypes = new Class<?>[classArgs.size()];
 				Object[] classArgValues = new Object[classArgs.size()];
-				initTypesAndValues(classArgs, classArgTypes, classArgValues, exactContructor);
+				initTypesAndValues(classArgs, classArgTypes, classArgValues, exactConstructor);
 
-				if (exactContructor) {  //指定某个构造方法
+				if (exactConstructor) {  //指定某个构造方法
 					Constructor<?> constructor = clazz.getConstructor(classArgTypes);
 					instance = constructor.newInstance(classArgValues);
 				}
@@ -754,7 +851,7 @@ public class MethodUtil {
 	 * @throws Exception
 	 */
 	public static Object getInvokeResult(@NotNull Class<?> clazz, Object instance, @NotNull String methodName
-			, List<Argument> methodArgs, Listener<JSONObject> listener) throws Exception {
+			, List<Argument> methodArgs, Listener<JSONObject> listener, InterfaceProxy globalInterfaceProxy) throws Exception {
 
 		Objects.requireNonNull(clazz);
 		Objects.requireNonNull(methodName);
@@ -826,16 +923,16 @@ public class MethodUtil {
 			}
 		};
 
-		boolean isSync = true;
-		if (types != null) {
+		boolean isSync = globalInterfaceProxy == null;
 
+		if (types != null) {
 			for (int i = 0; i < types.length; i++) {  //当其中有 interface 且用 KEY_CALLBACK 标记了内部至少一个方法，则认为是触发异步回调的方法
 				Class<?> type = types[i];
 				Object value = args[i];
 
 				if (value instanceof InterfaceProxy || (type != null && type.isInterface())) {  // @interface 也必须代理  && type.isAnnotation() == false)) {  //如果这里不行，就 initTypesAndValues 给个回调
-					try {  //不能交给 initTypesAndValues 中 castValue2Type，否则会导致这里 TypeUtils.cast 抛异常 
-						InterfaceProxy proxy = value instanceof InterfaceProxy ? ((InterfaceProxy) value) : TypeUtils.cast(value, InterfaceProxy.class, new ParserConfig());
+					try {  //不能交给 initTypesAndValues 中 castValue2Type，否则会导致这里 cast 抛异常 
+						InterfaceProxy proxy = value instanceof InterfaceProxy ? ((InterfaceProxy) value) : cast(value, InterfaceProxy.class, ParserConfig.getGlobalInstance());
 						Set<Entry<String, Object>> set = proxy.entrySet();
 						if (set != null)  {
 							for (Entry<String, Object> e : set) {
@@ -854,8 +951,15 @@ public class MethodUtil {
 							}
 						}
 
-						args[i] = TypeUtils.cast(proxy, type, new ParserConfig());
-						isSync = proxy.$_getCallbackMap().isEmpty();
+						Argument arg = methodArgs.get(i);
+						if (arg != null && arg.getGlobal() != null && arg.getGlobal()) {
+							GLOBAL_CALLBACK_MAP.put(clazz, proxy);
+						}
+
+						args[i] = cast(proxy, type, ParserConfig.getGlobalInstance());
+						if (isSync) {
+							isSync = proxy.$_getCallbackMap().isEmpty();
+						}
 					}
 					catch (Throwable e) {
 						e.printStackTrace();
@@ -863,7 +967,7 @@ public class MethodUtil {
 				}
 				//始终需要 cast	 else {  //前面 initTypesAndValues castValue2Type = false
 				try {
-					args[i] = TypeUtils.cast(value, type, new ParserConfig());
+					args[i] = cast(value, type, ParserConfig.getGlobalInstance());
 				}
 				catch (Throwable e) {
 					e.printStackTrace();
@@ -893,43 +997,94 @@ public class MethodUtil {
 	 * @param clsName
 	 * @param methodName
 	 * @param argTypes
+	 * @param query
+	 * @param mock
 	 * @return
 	 * @throws Exception
 	 */
-	public static JSONArray getMethodListGroupByClass(String pkgName, String clsName
-			, String methodName, Class<?>[] argTypes, boolean mock) throws Exception {
+	public static JSONObject getMethodListGroupByClass(String pkgName, String clsName
+			, String methodName, Class<?>[] argTypes, int query, boolean mock) throws Exception {
+		if (query != 0 && query != 1 && query != 2) {
+			throw new IllegalArgumentException("query 取值只能是 [0, 1, 2] 中的一个！ 0-数据，1-总数，2-全部");
+		}
+
+		boolean queryData = query != 1;
+		boolean queryTotal = query != 0;
+
+		pkgName = StringUtil.isEmpty(pkgName, true) ? null : StringUtil.getTrimedString(pkgName);
+		clsName = StringUtil.isEmpty(clsName, true) ? null : StringUtil.getTrimedString(clsName);
 
 		boolean allMethod = isEmpty(methodName, true);
 
-		List<Class<?>> classList = CLASS_LOADER_CALLBACK.loadClassList(pkgName, clsName, true);
-		JSONArray list = null;
-		if (classList != null) {
-			list = new JSONArray(classList.size());
+		List<Class<?>> allClassList = CLASS_LOADER_CALLBACK.loadClassList(pkgName, clsName, true);
 
-			for (Class<?> cls : classList) {
+		int packageTotal = 0;
+		int classTotal = 0;
+		int methodTotal = 0;
+
+		Map<String, JSONObject> packageMap = new HashMap<>();
+		JSONArray packageList = null;
+
+		JSONObject countObj = new JSONObject(true);
+		if (queryTotal) {
+			countObj.put(KEY_PACKAGE_TOTAL, packageTotal);
+			countObj.put(KEY_CLASS_TOTAL, classTotal);
+			countObj.put(KEY_METHOD_TOTAL, methodTotal);
+		}
+
+		if (allClassList != null && allClassList.isEmpty() == false) {
+			packageList = new JSONArray(Math.max(10, allClassList.size()/5));
+
+			for (Class<?> cls : allClassList) {
 				if (cls == null) {
 					continue;
 				}
 
+				classTotal ++;
+
+				int methodCount = 0;
 				try {
+					String pkg = cls.getPackage().getName();
+					JSONObject pkgObj = packageMap.get(pkg);
+					boolean pkgNotExist = pkgObj == null;
+					if (pkgNotExist) {
+						pkgObj = new JSONObject(true);
+						packageMap.put(pkg, pkgObj);
+					}
+
+					if (queryTotal) {
+						int clsCount = pkgObj.getIntValue(KEY_CLASS_TOTAL);
+						pkgObj.put(KEY_CLASS_TOTAL, clsCount + 1);
+					}
+					pkgObj.put(KEY_PACKAGE, pkg);
+
+					JSONArray classList = pkgObj.getJSONArray(KEY_CLASS_LIST);
+					if (classList == null) {
+						classList = new JSONArray();
+					}
+
 					JSONObject clsObj = new JSONObject(true);
 
-					clsObj.put(KEY_NAME, cls.getSimpleName());
+					clsObj.put(KEY_CLASS, cls.getSimpleName());
 					clsObj.put(KEY_TYPE, trimType(cls.getGenericSuperclass()));
-					clsObj.put(KEY_PACKAGE, cls.getPackage().getName());
 
 					JSONArray methodList = null;
-					if (allMethod == false && argTypes != null && argTypes.length > 0) {
-						Object mObj = parseMethodObject(cls.getMethod(methodName, argTypes), mock);
-						if (mObj != null) {
-							methodList = new JSONArray(1);
-							methodList.add(mObj);
+					if (allMethod == false && argTypes != null) {
+						methodList = queryData ? new JSONArray(1) : null;
+
+						JSONObject mObj = parseMethodObject(cls.getMethod(methodName, argTypes), mock);
+						if (mObj != null && mObj.isEmpty() == false) {
+							methodCount = 1;
+
+							if (methodList != null) {
+								methodList.add(mObj);
+							}
 						}
 					}
 					else {
 						Method[] methods = cls.getDeclaredMethods(); //父类的就用父类去获取 cls.getMethods();
 						if (methods != null && methods.length > 0) {
-							methodList = new JSONArray(methods.length);
+							methodList = queryData ? new JSONArray(methods.length) : null;
 
 							for (Method m : methods) {
 								String name = m == null ? null : m.getName();
@@ -938,38 +1093,70 @@ public class MethodUtil {
 								}
 
 								if (allMethod || methodName.equals(name)) {
+									JSONObject mObj = parseMethodObject(m, mock);
+									if (mObj != null && mObj.isEmpty() == false) {
+										methodCount ++;
 
-									Object mObj = parseMethodObject(m, mock);
-									if (mObj != null) {
-										methodList.add(mObj);
+										if (methodList != null) {
+											methodList.add(mObj);
+										}
 									}
 								}
 							}
 						}
 					}
-					clsObj.put("methodList", methodList);  //太多不需要的信息，导致后端返回慢、前端卡 UI	clsObj.put("Method[]", JSON.parseArray(methods));
 
-					list.add(clsObj);
+					if (queryTotal) {
+						clsObj.put(KEY_METHOD_TOTAL, methodCount);  //太多不需要的信息，导致后端返回慢、前端卡 UI	clsObj.put("Method[]", JSON.parseArray(methods));
+					}
 
+					if (methodList != null && methodList.isEmpty() == false) {
+						clsObj.put(KEY_METHOD_LIST, methodList);  //太多不需要的信息，导致后端返回慢、前端卡 UI	clsObj.put("Method[]", JSON.parseArray(methods));
+					}
+
+					if (clsObj != null && clsObj.isEmpty() == false) {
+						classList.add(clsObj);
+					}
+
+					if (classList != null && classList.isEmpty() == false) {
+						pkgObj.put(KEY_CLASS_LIST, classList);
+					}
+					
+					if (pkgNotExist && pkgObj != null && pkgObj.isEmpty() == false) {
+						packageList.add(pkgObj);
+					}
 				}
 				catch (Throwable e) {
 					e.printStackTrace();
 				}
 
+				methodTotal += methodCount;
+			}
+
+			if (packageList != null && packageList.isEmpty() == false) {
+				countObj.put(KEY_PACKAGE_LIST, packageList);
 			}
 		}
 
-		return list;
+		packageTotal = packageMap.size();
+
+		if (query != 0) {
+			countObj.put(KEY_PACKAGE_TOTAL, packageTotal);
+			countObj.put(KEY_CLASS_TOTAL, classTotal);
+			countObj.put(KEY_METHOD_TOTAL, methodTotal);
+		}
+		return countObj;
 	}
+
 
 
 
 	public static String dot2Separator(String name) {
-		return name == null ? null : name.replaceAll("\\.", File.separator);
+		return name == null ? null : name.replaceAll("\\.", "\\".equals(File.separator) ? "\\\\" : File.separator);
 	}
 
 	public static String separator2dot(String name) {
-		return name == null ? null : name.replaceAll(File.separator, ".");
+		return name == null ? null : name.replaceAll("\\".equals(File.separator) ? "\\\\" : File.separator, ".");
 	}
 
 	//	private void initTypesAndValues(JSONArray methodArgs, Class<?>[] types, Object[] args)
@@ -1010,7 +1197,7 @@ public class MethodUtil {
 
 			//			if (typeName != null && value != null && value.getClass().equals(CLASS_MAP.get(typeName)) == false) {
 			////				if ("double".equals(typeName)) {
-			//				value = TypeUtils.cast(value, CLASS_MAP.get(typeName), new ParserConfig());
+			//				value = cast(value, CLASS_MAP.get(typeName), ParserConfig.getGlobalInstance());
 			////				}
 			////				else if (PRIMITIVE_CLASS_MAP.containsKey(typeName)) {
 			////					value = JSON.parse(JSON.toJSONString(value));
@@ -1053,7 +1240,7 @@ public class MethodUtil {
 
 				if (castValue2Type) {
 					try {
-						value = TypeUtils.cast(value, type, new ParserConfig());
+						value = cast(value, type, ParserConfig.getGlobalInstance());
 					}
 					catch (Throwable e) {
 						e.printStackTrace();
@@ -1123,7 +1310,10 @@ public class MethodUtil {
 
 	@SuppressWarnings("rawtypes")
 	public static Object mockValue(Class type, Type genericType) {
-		//避免缓存穿透
+		return mockValue(type, genericType, 3);
+	}
+	public static Object mockValue(Class type, Type genericType, int depth) {
+			//避免缓存穿透
 		//		Object v = DEFAULT_TYPE_VALUE_MAP.get(t);
 		//		if (v != null) {
 		//			return v;
@@ -1154,26 +1344,30 @@ public class MethodUtil {
 
 		//常规业务不会用 int, long 之外的整型，一般是驱动、算法之类的才会用
 		if (type == char.class || type == Character.class) {
-			return Math.round(Character.MAX_VALUE * Math.random());
+			return (char) (Math.round(Character.MAX_VALUE * Math.random()));
 		}
-		if (type == byte.class || type == Byte.class || type == char.class || type == Character.class) {
-			return Math.round(Byte.MAX_VALUE * Math.random());
+		if (type == byte.class || type == Byte.class) {
+			return (byte) (Math.round(Byte.MAX_VALUE * Math.random()));
 		}
 		if (type == short.class || type == Short.class) {
-			return Math.round(Short.MAX_VALUE * Math.random());
+			return (short) (Math.round(Short.MAX_VALUE * Math.random()));
 		}
 
 		if (type == int.class || type == Integer.class) {
-			return sign * Math.round((sign < 0 ? 2 : 10) * Math.random());
+			return (int) (sign * Math.round((sign < 0 ? 2 : 10) * Math.random()));
 		}
 		if (type == long.class || type == Long.class) {
-			return sign * Math.round((sign < 0 ? 10 : 100) * Math.random());
+			return (long) (sign * Math.round((sign < 0 ? 10 : 100) * Math.random()));
 		}
 		if (type == float.class || type == Float.class || type == Number.class) {
-			return sign * (sign < 0 ? 10 : 100) * Math.random();
+			return (float) (sign * (sign < 0 ? 10 : 100) * Math.random());
 		}
 		if (type == double.class || type == Double.class) {
-			return sign * (sign < 0 ? 10 : 100) * Math.random();
+			return (double) (sign * (sign < 0 ? 10 : 100) * Math.random());
+		}
+
+		if (depth < 0) {
+			return null;
 		}
 
 		//		if (type instanceof Class) {
@@ -1199,17 +1393,14 @@ public class MethodUtil {
 				JSONObject obj = new JSONObject(true);
 
 				Type[] ts = getTypeArguments(type, genericType);
-				Class mt;
-				if (ts == null || ts.length < 2 || ts[1] instanceof Class == false) {
-					mt = int.class;  // return obj;
-				} else {
-					mt = (Class) ts[1];
-				}
+				Class<?> tt = ts == null || ts.length < 1 || ts[0] instanceof Class == false ? String.class : (Class<?>) ts[0];
+				Class<?> vt = ts == null || ts.length < 2 || ts[1] instanceof Class == false ? int.class : (Class<?>) ts[1];
 
 				for (int i = 0; i < r*3; i++) {
-					Object v = mockValue(mt, ts[1]);
+					Object k = mockValue(tt, ts[0], 1);
+					Object v = k == null ? null : mockValue(vt, ts[1], depth - 1);
 					if (v != null) {
-						obj.put((String) mockValue(String.class, String.class), v);
+						obj.put(k.toString(), v);
 					}
 				}
 
@@ -1289,8 +1480,76 @@ public class MethodUtil {
 				return null;
 			}
 
-			Object v = JSON.parse(JSON.toJSONString(INSTANCE_GETTER.getInstance(type, null)));
+			Object v = INSTANCE_GETTER.getInstance(type, null);
 			//				DEFAULT_TYPE_VALUE_MAP.put(c, v);
+
+			try {
+				Class<?> cls = v.getClass(); // type ?
+				Field[] fields = cls == null ? null : cls.getDeclaredFields(); // cls.getFields();
+				int len = fields == null ? 0 : fields.length;
+//				Field[] dfs = cls == null ? null : cls.getDeclaredFields();
+//				if (len <= 0) {
+//					fields = dfs;
+//				}
+//				else if (dfs != null && dfs.length > 0) {
+//
+//					Field[] nfs = Arrays.copyOf(fields, len + dfs.length);
+//					for (int i = 0; i < dfs.length; i++) {
+//						nfs[len + i] = dfs[i];
+//					}
+//					fields = nfs;
+//				}
+
+				Class<?> sc = cls;
+				int d = depth;
+				while (sc != null && d >= 0) {
+					try {
+						d --;
+						sc = sc.getSuperclass();
+
+						Field[] sfs = sc == null ? null : sc.getDeclaredFields();
+						int sl = sfs == null ? 0 : sfs.length;
+						if (sl <= 0) {
+							continue;
+						}
+
+						Field[] nfs = Arrays.copyOf(fields, len + sl);
+						for (int i = 0; i < sl; i++) {
+							nfs[len + i] = sfs[i];
+						}
+
+						fields = nfs;
+					}
+					catch (Throwable e) {
+						e.printStackTrace();
+						break;
+					}
+				}
+
+				len = fields == null ? 0 : fields.length;
+
+				for (int i = 0; i < len; i++) {
+					try {
+						Field f = fields[i];
+						if (f == null) {
+							continue;
+						}
+
+						f.setAccessible(true);
+						Object fv = f.get(v);
+						if (fv == null && Modifier.isFinal(f.getModifiers()) != true) {
+							f.set(v, mockValue(f.getType(), f.getGenericType(), depth - 1));
+						}
+					}
+					catch (Throwable e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			catch (Throwable e) {
+				e.printStackTrace();
+			}
+
 			return v;
 		}
 		catch (Throwable e) {
@@ -1497,6 +1756,7 @@ public class MethodUtil {
 	//	private Class<?> getType(String name, Object value) throws ClassNotFoundException, IOException {
 	//		return getType(name, value, false);
 	//	}
+	@SuppressWarnings("unchecked")
 	public static Class<?> getType(String name, Object value, boolean defaultType) throws ClassNotFoundException, IOException {
 		Class<?> type = null;
 		if (isEmpty(name, true)) {  //根据值来自动判断
@@ -1509,7 +1769,9 @@ public class MethodUtil {
 		}
 		else {
 			int index = name.indexOf("<");
+			String child = null;
 			if (index >= 0) {
+				child = name.substring(index + 1, name.lastIndexOf(">"));
 				name = name.substring(0, index);
 			}
 
@@ -1521,6 +1783,51 @@ public class MethodUtil {
 				if (type != null) {
 					CLASS_MAP.put(name, type);
 				}
+			} else if (value != null && StringUtil.isEmpty(child, true) == false && "?".equals(child) == false && "Object".equals(child) == false && Collection.class.isAssignableFrom(type)) {
+				try {
+					// 传参进来必须是 Collection，不是就抛异常  value = cast(value, type, ParserConfig.getGlobalInstance());
+					Collection<?> c = (Collection<?>) value;
+					if (c != null && c.isEmpty() == false) {
+
+						@SuppressWarnings("rawtypes")
+						Collection nc;
+
+						if (Queue.class.isAssignableFrom(type) || AbstractSequentialList.class.isAssignableFrom(type)) {  // LinkedList
+							nc = new LinkedList<>();
+						} 
+						else if (Vector.class.isAssignableFrom(type)) {  // Stack
+							nc = new Stack<>();
+						} 
+						else if (List.class.isAssignableFrom(type)) {  // 写在最前，和 else 重合，但大部分情况下性能更好  // ArrayList
+							nc = new ArrayList<>(c.size());
+						}
+						else if (SortedSet.class.isAssignableFrom(type)) {  // TreeSet
+							nc = new TreeSet<>();
+						} 
+						else if (Set.class.isAssignableFrom(type)) {  // HashSet, LinkedHashSet
+							nc = new LinkedHashSet<>(c.size());
+						} 
+						else {  // List, ArrayList
+							nc = new ArrayList<>(c.size());
+						}
+
+						for (Object o : c) {
+							if (o != null) {
+								Class<?> ct = getType(child, o, true);
+								o = cast(o, ct, ParserConfig.getGlobalInstance());
+							}
+							nc.add(o);
+						}
+
+						// 改变不了外部的 value 值	value = nc;
+						c.clear();
+						c.addAll(nc);
+					}
+				}
+				catch (Throwable e) {
+					e.printStackTrace();
+				}
+
 			}
 		}
 
@@ -1529,6 +1836,47 @@ public class MethodUtil {
 		}
 
 		return type;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T> T cast(Object obj, Class<T> type, ParserConfig config) {
+		if (type == null || obj == null || type.isAssignableFrom(obj.getClass())) {
+			return (T) obj;
+		}
+
+		if (Collection.class.isAssignableFrom(type)) {
+			Collection<?> c = (Collection<?>) obj;
+
+			@SuppressWarnings("rawtypes")
+			Collection nc;
+
+			if (Queue.class.isAssignableFrom(type) || AbstractSequentialList.class.isAssignableFrom(type)) {  // LinkedList
+				nc = new LinkedList<>();
+			} 
+			else if (Vector.class.isAssignableFrom(type)) {  // Stack
+				nc = new Stack<>();
+			} 
+			else if (List.class.isAssignableFrom(type)) {  // 写在最前，和 else 重合，但大部分情况下性能更好  // ArrayList
+				nc = new ArrayList<>(c.size());
+			}
+			else if (SortedSet.class.isAssignableFrom(type)) {  // TreeSet
+				nc = new TreeSet<>();
+			} 
+			else if (Set.class.isAssignableFrom(type)) {  // HashSet, LinkedHashSet
+				nc = new LinkedHashSet<>(c.size());
+			} 
+			else {  // List, ArrayList
+				nc = new ArrayList<>(c.size());
+			}
+
+			for (Object o : c) {
+				nc.add(o);
+			}
+
+			return (T) nc;
+		}
+
+		return TypeUtils.cast(obj, type, config);
 	}
 
 	/**
@@ -1634,7 +1982,7 @@ public class MethodUtil {
 						if (allName || className.equals(name)) {
 							//反射出实例
 							try {
-								Class<?> clazz = loader.loadClass(packageOrFileName.replaceAll(File.separator, "\\.") + "." + name);
+								Class<?> clazz = loader.loadClass(packageOrFileName.replaceAll("\\".equals(File.separator) ? "\\\\" : File.separator, "\\.") + "." + name);
 								list.add(clazz);
 
 								if (allName == false) {
@@ -1714,6 +2062,7 @@ public class MethodUtil {
 		private Boolean reuse;
 		private String type;
 		private Object value;
+		private Boolean global;
 
 		public Argument() {
 		}
@@ -1741,6 +2090,12 @@ public class MethodUtil {
 		}
 		public void setValue(Object value) {
 			this.value = value;
+		}
+		public Boolean getGlobal() {
+			return global;
+		}
+		public void setGlobal(Boolean global) {
+			this.global = global;
 		}
 	}
 
@@ -1881,7 +2236,7 @@ public class MethodUtil {
 			if (name == null) {
 				return null;
 			}
-			String key = name + "(" + StringUtil.getString(trimTypes(method.getGenericParameterTypes())) + ")";
+			String key = name + "(" + StringUtil.getString(trimTypes(method.getGenericParameterTypes())) + ")";  // 带修饰符，太长 method.toGenericString();
 			Object handlerValue = get(key);
 
 			String type = null;
@@ -1953,7 +2308,7 @@ public class MethodUtil {
 			}
 
 			try {
-				value = TypeUtils.cast(value, getType(type, value, true), new ParserConfig());
+				value = cast(value, getType(type, value, true), ParserConfig.getGlobalInstance());
 			}
 			catch (Throwable e) {
 				e.printStackTrace();

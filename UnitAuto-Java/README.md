@@ -1,4 +1,4 @@
-# unitauto-java  [![](https://jitpack.io/v/TommyLemon/unitauto-java.svg)](https://jitpack.io/#TommyLemon/apijson-orm)
+# unitauto-java  [![](https://jitpack.io/v/TommyLemon/unitauto-java.svg)](https://jitpack.io/#TommyLemon/unitauto-java)
 UnitAuto Java 库，可通过 Maven, Gradle 等远程依赖。<br />
 UnitAuto Java Library for remote dependencies with Maven, Gradle, etc.
 
@@ -42,8 +42,8 @@ UnitAuto Java Library for remote dependencies with Maven, Gradle, etc.
 ```
 <br />
 
-#### 2. 在项目某个 module 目录(例如 `app`) build.gradle 中添加 apijson-orm 依赖
-#### 2. Add the apijson-orm dependency in one of your modules(such as `app`)
+#### 2. 在项目某个 module 目录(例如 `app`) build.gradle 中添加 unitauto-java 依赖
+#### 2. Add the unitauto-java dependency in one of your modules(such as `app`)
 ```gradle
 	dependencies {
 	        implementation 'com.github.TommyLemon:unitauto-java:latest'

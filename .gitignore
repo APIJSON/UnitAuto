@@ -17,3 +17,13 @@ UnitAuto-Java-Demo/.idea
 .classpath
 .project
 UnitAuto-Java-Demo/.settings
+*.iml
+
+.gradle
+.idea
+
+UnitAuto-SpringBoot-SDK/bin
+UnitAuto-Android/gradlew.bat
+UnitAuto-Android/gradlew
+UnitAuto-Android/gradle/wrapper/gradle-wrapper.properties
+UnitAuto-Android/gradle/wrapper/gradle-wrapper.jar

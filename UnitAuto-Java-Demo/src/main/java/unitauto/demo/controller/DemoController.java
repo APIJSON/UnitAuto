@@ -15,25 +15,21 @@ limitations under the License.*/
 
 package unitauto.demo.controller;
 
-import java.lang.reflect.Method;
-
-import javax.servlet.AsyncContext;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 
-import unitauto.Log;
 import unitauto.MethodUtil;
-import unitauto.MethodUtil.InterfaceProxy;
+import unitauto.boot.UnitAutoController;
+import unitauto.demo.domain.Comment;
+import unitauto.demo.domain.User;
 import unitauto.demo.service.DemoService;
 
 /**
@@ -41,67 +37,93 @@ import unitauto.demo.service.DemoService;
  */
 @RequestMapping("")
 @RestController
-public class DemoController {
+public class DemoController extends UnitAutoController {  // 继承是因为可能 Application 设置了 Scan 导致 UnitAutoController 未生效
 	private static final String TAG = "DemoController";
 
 	@Autowired
-	DemoService demoService;
+	public DemoService demoService;
 
 	@GetMapping("test")
-	boolean test() {
+	public boolean test() {
 		return true;
 	}
-	
-	@GetMapping("hello")
-	String hello(@RequestParam(value = "name", required = false) String name) {
+
+	@RequestMapping("hello")
+	public String hello(@RequestParam(value = "name", required = false) String name) {
 		return demoService.hello(name);
 	}
-	
-	
 
 
-	@PostMapping("method/list")
-	public JSONObject listMethod(@RequestBody String request) {
-		return MethodUtil.listMethod(request);
+	@RequestMapping("listUser")
+	public String listUser(@RequestParam Integer count) {
+		List<User> list = demoService.listUser(count == null ? 10 : count);
+		JSONObject result = MethodUtil.newSuccessResult();
+		result.put("data", list);
+		return result.toJSONString();
 	}
-	
-	@PostMapping("method/invoke")
-	public void invokeMethod(@RequestBody String request, HttpServletRequest servletRequest) {
-		AsyncContext asyncContext = servletRequest.startAsync();
 
-		final boolean[] called = new boolean[] { false };
-		MethodUtil.Listener<JSONObject> listener = new MethodUtil.Listener<JSONObject>() {
-
-			@Override
-			public void complete(JSONObject data, Method method, InterfaceProxy proxy, Object... extras) throws Exception {
-				ServletResponse servletResponse = called[0] ? null : asyncContext.getResponse();
-				if (servletResponse == null || servletResponse.isCommitted()) {  // isCommitted 在高并发时可能不准，导致写入多次
-                    Log.w(TAG, "invokeMethod  listener.complete  servletResponse == null || servletResponse.isCommitted() >> return;");
-                    return;
-				}
-				called[0] = true;
-
-				servletResponse.setCharacterEncoding(servletRequest.getCharacterEncoding());
-				servletResponse.setContentType(servletRequest.getContentType());
-				servletResponse.getWriter().println(data);
-				asyncContext.complete();
-			}
-		};
-
+	@RequestMapping("addContact")
+	public JSONObject addContact(@RequestParam Long id, @RequestParam Long contactId) {
 		try {
-			MethodUtil.invokeMethod(request, null, listener);
-		}
-		catch (Exception e) {
-			Log.e(TAG, "invokeMethod  try { JSONObject req = JSON.parseObject(request); ... } catch (Exception e) { \n" + e.getMessage());
-			try {
-				listener.complete(MethodUtil.JSON_CALLBACK.newErrorResult(e));
-			}
-			catch (Exception e1) {
-				e1.printStackTrace();
-				asyncContext.complete();
-			}
+			User user = demoService.addContact(id, contactId);
+			JSONObject result = MethodUtil.newSuccessResult();
+			result.put("data", user);
+			return result;
+		} catch (Throwable e) {
+			return MethodUtil.newErrorResult(e);
 		}
 	}
+
+	@PostMapping("addUser")
+	public JSONObject addUser(@RequestParam User user) {
+		try {
+			List<User> list = demoService.addUser(user);
+			JSONObject result = MethodUtil.newSuccessResult();
+			result.put("data", list);
+			return result;
+		} catch (Throwable e) {
+			return MethodUtil.newErrorResult(e);
+		}
+	}
+
+
+	@PostMapping("addUserList")
+	public JSONObject addUserList(@RequestParam List<User> list) {
+		try {
+			List<User> userList = demoService.addUserList(list);
+			JSONObject result = MethodUtil.newSuccessResult();
+			result.put("data", userList);
+			return result;
+		} catch (Throwable e) {
+			return MethodUtil.newErrorResult(e);
+		}
+	}
+
+
+	@PostMapping("addComment")
+	public JSONObject addComment(@RequestParam Comment comment) {
+		try {
+			int count = demoService.addComment(comment);
+			JSONObject result = MethodUtil.newSuccessResult();
+			result.put("data", count);
+			return result;
+		} catch (Throwable e) {
+			return MethodUtil.newErrorResult(e);
+		}
+	}
+
+	@PostMapping("listComment")
+	public JSONObject listComment(@RequestParam Integer count) {
+		try {
+			List<Comment> list = demoService.listComment(count); // 这里有个 NPE bug，可用 UnitAuto 测试发现
+			JSONObject result = MethodUtil.newSuccessResult();
+			result.put("data", list);
+			return result;
+		} catch (Throwable e) {
+			return MethodUtil.newErrorResult(e);
+		}
+	}
+
 
 
 }

@@ -2,11 +2,18 @@
   UnitAuto
 </h1>
  
-<p align="center">☀️ 机器学习单元测试平台</p>
-<p align="center">零代码、全方位、自动化 测试 方法/函数 的性能、正确性和可用性</p>
+<p align="center">☀️ 机器学习零代码单元测试平台</p>
+<p align="center">零代码、全方位、自动化 测试 方法/函数 的正确性、可用性和性能</p>
 <p align="center" >
-  <a href="https://github.com/TommyLemon/UnitAuto#%E9%83%A8%E7%BD%B2%E6%96%B9%E6%B3%95">使用文档</a>
-  <a href="https://www.bilibili.com/video/BV1Tk4y1R7Yo">视频教程</a>
+  <a href="https://github.com/TommyLemon/UnitAuto/tree/master/UnitAuto-Java-Demo"><img src="https://img.shields.io/badge/Java-1.8%2B-brightgreen.svg?style=flat"></a>
+  <a href="https://github.com/TommyLemon/UnitAuto/tree/master/UnitAuto-Java-Demo"><img src="https://img.shields.io/badge/Kotlin-1.2%2B-brightgreen.svg?style=flat"></a>
+  <a href="https://github.com/TommyLemon/UnitAuto/tree/master/UnitAuto-Go"><img src="https://img.shields.io/badge/Go-1.18%2B-brightgreen.svg?style=flat"></a>
+  <a href="https://github.com/TommyLemon/UnitAuto/tree/master/UnitAuto-Python"><img src="https://img.shields.io/badge/Python-3.7%2B-brightgreen.svg?style=flat"></a>
+  <a href="https://github.com/TommyLemon/UnitAuto/tree/master/UnitAuto-Android"><img src="https://img.shields.io/badge/Android-26%2B-brightgreen.svg?style=flat"></a>
+</p>
+<p align="center" >
+  <a href="https://github.com/TommyLemon/UnitAuto#%E9%9B%86%E6%88%90%E5%88%B0%E8%A2%AB%E6%B5%8B%E9%A1%B9%E7%9B%AE">使用文档</a>
+  <a href="https://search.bilibili.com/all?keyword=UnitAuto">视频教程</a>
   <a href="http://apijson.cn/unit">在线体验</a>
 </p>
 
@@ -16,8 +23,15 @@
 
 ---
 
-机器学习单元测试平台，零代码、全方位、自动化 测试 方法/函数 的性能、正确性和可用性。<br />
-腾讯 IEG(互动娱乐事业群)、WXG(微信事业群) 两大事业群多个部门的多个项目使用中。
+机器学习单元测试平台，零代码、全方位、自动化 测试 方法/函数 的正确性、可用性和性能。<br />
+腾讯 IEG(互动娱乐事业群)、WXG(微信事业群) 两大事业群多个部门的多个项目以及快手广告使用中。
+
+已被 互联网教育智能技术及应用国家工程实验室 收录。
+https://github.com/TommyLemon/APIAuto/issues/19
+
+<img width="1494" alt="image" src="https://user-images.githubusercontent.com/5738175/221088793-f60d1a43-fdb4-4cda-84ef-04fdee1aa472.png">
+<img width="1494" alt="image" src="https://raw.githubusercontent.com/TommyLemon/StaticResources/master/UnitAuto/UnitAuto-RandomTest-Parent-small.jpg">
+<img width="1495" alt="image" src="https://user-images.githubusercontent.com/5738175/224038704-fef31759-c349-40cb-a252-e0c8cff55110.png">
 
 
 ### 特点优势
@@ -28,6 +42,11 @@ UnitAuto 不需要写任何代码，直接读取方法的属性，自动注入�
 2.UnitAuto 这种 Runtime testing 工具无需 Mock 环境(Application, Context 等)，<br />
 更不用为 无法有效地 Mock 环境相关类、第三方登录未提供 Mock 支持 等而头疼，<br />
 只要被测方法满足 有 return 值、有 interface 回调、改变成员变量 field 这 3 点中至少一点就能测。
+
+#### 质效无双线上技术访谈-零代码智能测试工具实践介绍-第11期
+https://testwo.cn1.quickconnect.cn/vs/sharing/iiP8VK1C#!aG9tZV92aWRlby0xMQ==
+![https://testwo.cn1.quickconnect.cn/vs/sharing/iiP8VK1C#!aG9tZV92aWRlby0xMQ==](https://user-images.githubusercontent.com/5738175/179578082-0c72a715-c9b3-49f7-bf1c-45f963c6eb4f.png)
+
 <br />
 <br />
 
@@ -84,8 +103,8 @@ UnitAuto 会自动生成测试参数，并执行方法，拿到返回值等进�
 <br />
 
 ### 示例项目
-[UnitAuto Java 后端 Server](https://github.com/TommyLemon/UnitAuto/tree/master/UnitAuto-Java-Demo)    在线 [测试](http://apijson.org:8000/unit/) <br />
-[APIJSON Java 后端 Server](https://github.com/APIJSON/APIJSON-Demo/blob/master/APIJSON-Java-Server/APIJSONBoot)    在线 [测试](http://apijson.org/unit/) <br />
+[UnitAuto Java 后端 Server](https://github.com/TommyLemon/UnitAuto/tree/master/UnitAuto-Java-Demo)    在线 [测试](http://apijson.cn:8081) <br />
+[APIJSON Java 后端 Server](https://github.com/APIJSON/APIJSON-Demo/blob/master/APIJSON-Java-Server/APIJSONBoot)    在线 [测试](http://apijson.cn/unit/) <br />
 [UnitAuto Android 客户端 App](https://github.com/TommyLemon/UnitAuto/tree/master/UnitAuto-Android)    直接 [下载](https://github.com/TommyLemon/UnitAuto/releases/download/2.6.0/UnitAutoApp.apk) （第一次可能失败，返回报错 JSON，一般重试一次就可以）<br />
 [APIJSON Android 客户端 App](https://github.com/APIJSON/APIJSON-Demo/blob/master/APIJSON-Android/APIJSONTest)    直接 [下载](https://github.com/TommyLemon/UnitAuto/releases/download/2.5.0/APIJSONTest.apk) （第一次可能失败，返回报错 JSON，一般重试一次就可以）
 <br />
@@ -99,6 +118,9 @@ https://www.bilibili.com/video/BV1Tk4y1R7Yo
 UnitAuto-异步回调方法的零代码单元测试 <br />
 https://www.bilibili.com/video/BV1kk4y1z7bW
 <br />
+
+其它
+https://search.bilibili.com/all?keyword=UnitAuto
 <br />
 
 ### 集成到被测项目
@@ -202,7 +224,7 @@ dependencies {
 
 ### 部署后台管理工具
 可以直接[下载源码](https://github.com/TommyLemon/UnitAuto/archive/master.zip)解压后用浏览器打开 [UnitAuto-Admin](https://github.com/TommyLemon/UnitAuto/tree/master/UnitAuto-Admin)/index.html，建议用 Chrome 或 火狐 (Safari、Edge、IE 等可能有兼容问题)。<br />
-也可以直接访问官网的线上环境 http://apijson.cn/unit 或开发环境 http://apijson.org:8000/unit 。<br />
+也可以直接访问官网的环境 http://apijson.cn/unit 或 http://apijson.cn:8081 <br />
 <br />
 点右上角设置项 "项目服务器地址 URL"，把输入框内基地址改为你主机的地址(例如 http://192.168.0.102:8080 )<br />
 <br />
@@ -219,38 +241,299 @@ dependencies {
 <br />
 <br />
 <br />
-自动管理测试用例 这个功能 需要部署APIJSON后端，见 <br /> 
+自动管理测试用例 这个功能 需要部署 APIJSONBoot ，见 <br /> 
 https://github.com/APIJSON/APIJSON-Demo/tree/master/APIJSON-Java-Server
 <br />
 <br />
 
+### 新增测试用例
+可以使用以下几种方式：
+#### 1.远程扫描方法
+https://github.com/TommyLemon/UnitAuto/blob/master/README.md#%E8%BF%9C%E7%A8%8B%E6%89%AB%E6%8F%8F%E6%96%B9%E6%B3%95
+
+#### 2.调用 /delegate 代理接口来录制请求的方法、参数、响应等信息
+https://github.com/APIJSON/APIJSON-Demo/tree/master/APIJSON-Java-Server/APIJSONBoot-MultiDataSource#%E4%BB%A3%E7%90%86%E6%8E%A5%E5%8F%A3%E5%8F%8A%E5%BD%95%E5%88%B6%E6%B5%81%E9%87%8F
+
+#### 3.打开分享链接来自动填充 方法 URI、参数 JSON、请求头、参数注入配置、设置项 等
+例如：
+http://apijson.cn/unit/?send=true&type=JSON&url=unitauto.test.TestUtil.minus&json={%22static%22:true,%22methodArgs%22:[{%22type%22:%22long%22,%22value%22:1},{%22type%22:%22long%22,%22value%22:2}]}
+
+#### 4.在界面手动填写 方法 URI、参数 JSON 等再点击上传/分享按钮
+可点击分享按钮生成分享链接，用浏览器打开即可自动填充。
+
+<br />
+
+### 远程扫描方法
+UnitAuto-Admin 登录后点击 设置项 \[查看、同步方法文档]，等返回方法属性 JSON 后点 \[上传] 按钮
+![image](https://user-images.githubusercontent.com/5738175/172366167-87b5de56-16c0-4a44-bed7-6a6fe76a4209.png)
+
+对应发送 HTTP 请求 <br />
+[POST /method/list](https://github.com/TommyLemon/UnitAuto/blob/master/UnitAuto-SpringBoot-SDK/src/main/java/unitauto/boot/UnitAutoController.java#L43-L50)
+```js
+{
+    "query": 2,  // 0-数据，1-总数，2-全部
+    "mock": true,
+    "package": "unitauto.test",
+    "class": "TestUtil",
+    "method": "divide",
+    "types": null
+}
+```
+
+详细说明见 MethodUtil.listMethod 的注释 <br />
+https://github.com/TommyLemon/UnitAuto/blob/master/UnitAuto-Java/src/main/java/unitauto/MethodUtil.java#L287-L300
+
+<br />
+
+### 远程调用方法
+UnitAuto-Admin 点击 \[运行方法]
+![image](https://user-images.githubusercontent.com/5738175/172368105-d4d0b53c-59a7-42d8-aaf1-4ecfc0711b8a.png)
+
+同步方法 <br />
+unitauto.test.TestUtil.divide
+```js
+{
+    "static": true,
+    "methodArgs": [
+        {   // 可省略来自动判断的 type : Boolean,Integer,BigDecimal,String,Object,JSONArray 这几种 JSON 类型
+            "type": "double",
+            "value": 1
+        },
+        {   // 支持各种类型，例如 unitauto.demo.domain.User, List<String>, annotation.Annotation[]，未注册的要写完整全路径
+            "type": "double",
+            "value": 2
+        }
+    ]
+}
+```
+
+也可以简化为 
+```js
+{
+    "static": true,
+    "methodArgs": [
+        "double:1",
+        "double:2"  // 如果是 JSON 类型，可以不写类型只写值，例如 true, 1, 3.14, "ok", {"a": 1}, [1, 2, 3]
+    ]
+}
+```
+
+对应发送 HTTP 请求  <br />
+[POST /method/invoke](https://github.com/TommyLemon/UnitAuto/blob/master/UnitAuto-SpringBoot-SDK/src/main/java/unitauto/boot/UnitAutoController.java#L52-L102)
+```js
+{
+    "package": "unitauto.test",
+    "class": "TestUtil",
+    "method": "divide",
+    "static": true,
+    "methodArgs": [
+        {
+            "type": "double",
+            "value": 1
+        },
+        {
+            "type": "double",
+            "value": 2
+        }
+    ]
+}
+```
+
+
+对应调用 Java 方法  <br />
+unitauto.test.TestUtil.divide(double, double)
+```java
+    public static double divide(double a, double b) {
+        return a / b;
+    }
+```
+https://github.com/TommyLemon/UnitAuto/blob/master/UnitAuto-Java/src/main/java/unitauto/test/TestUtil.java#L56-L58
+
+<img width="1495" alt="image" src="https://user-images.githubusercontent.com/5738175/224038704-fef31759-c349-40cb-a252-e0c8cff55110.png">
+
+异步回调方法  <br />
+unitauto.test.TestUtil.computeAsync
+```js
+{
+    "static": true,
+    "methodArgs": [
+        "long:8",
+        "long:2",
+        {
+            "type": "unitauto.test.TestUtil$Callback",
+            "value": {
+                "sort()": { // 可以简写为 "sort()": false 
+                    "type": "Boolean",
+                    "return": false
+                },
+                "setData(D)": {
+                    "callback": true
+                }
+            }
+        }
+    ]
+}
+```
+
+
+对应调用 Java 方法  <br />
+unitauto.test.TestUtil.computeAsync(long, long, Callback)
+```java
+	public static Number computeAsync(long a, long b, Callback callback) {
+
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					Thread.sleep(3000);
+				} catch (Exception e) {}
+				
+				Boolean sort = callback.sort();
+				if (sort != null && sort && a > b) {
+					callback.minusAsId(b, a);
+				} else {
+					callback.minusAsId(a, b);
+				}
+
+				callback.setData("Mock inner interface success!");
+			}
+		}).start();
+
+		return callback.getId();
+	}
+```
+https://github.com/TommyLemon/UnitAuto/blob/master/UnitAuto-Java/src/main/java/unitauto/test/TestUtil.java#L95-L117
+
+ <br /> <br />
+
+详细说明见 MethodUtil.invokeMethod 的注释 <br />
+https://github.com/TommyLemon/UnitAuto/blob/master/UnitAuto-Java/src/main/java/unitauto/MethodUtil.java#L353-L424
+
+<br />
+
+### 后台 Headless 无 UI 模式回归测试
+Jenkins、蓝盾 等 CI/CD 等流水线不支持带 UI 测试，所以提供了这个模式， <br />
+通过调用 HTTP API 即可执行用例和查看进度，方便集成到 CI/CD 流水线。
+![image](https://user-images.githubusercontent.com/5738175/199445916-29ac8ded-8838-46d8-88ff-0daad06b11a9.png)
+![image](https://user-images.githubusercontent.com/5738175/199445960-2eac952e-75d9-48b1-945b-5759370c21c0.png)
+
+#### 1.配置 Node 环境及 NPM 包管理工具
+https://nodejs.org
+
+#### 2.安装相关依赖
+https://koajs.com
+```sh
+nvm install 7
+npm i koa
+```
+
+#### 3.使用后台 HTTP 服务
+先启动 HTTP 服务
+```sh
+cd js
+node server.js
+```
+如果运行报错 missing package xxx，说明缺少相关依赖，参考步骤 2 来执行
+```sh
+npm i xxx
+```
+然后再启动 HTTP 服务。<br />
+
+启动成功后会有提示，点击链接或者复制到浏览器输入框打开即可。<br /><br />
+如果托管服务是用 [APIJSONBoot-MultiDataSource](https://github.com/APIJSON/APIJSON-Demo/tree/master/APIJSON-Java-Server/APIJSONBoot-MultiDataSource) 部署的，<br />
+链接 host 后可以加上 /unit，例如 http://localhost:3001/unit/test/start <br />
+通过这个接口来放宽前端执行时查询测试用例、参数配置等列表的条数，一次可批量执行更多用例。
+
+<br /><br />
+
+### 常见问题
+#### 1.无法访问接口
+Chrome 90+ 对 CORS 请求禁止携带 Cookie 或 Chrome 80-89 强制 same-site Cookie 的策略导致 <br />
+https://github.com/TommyLemon/UnitAuto/issues/11
+
+#### 2.没有生成文档
+右上角设置项与数据库实际配置不一致 等  <br />
+https://github.com/Tencent/APIJSON/issues/85
+
+#### 3.托管服务器访问不了
+不能代理接口、不能展示文档、不能对断言结果纠错 等 <br />
+https://github.com/TommyLemon/APIAuto/issues/12
+
+#### 4.apijson.cn 访问不了
+托管服务地址改为 http://47.98.196.224:8080  <br />
+https://github.com/TommyLemon/APIAuto/issues/13
+
+#### 5.如何统计行覆盖率/分支覆盖率？
+Java/Kotlin 可以用 Jacoco(on-the-fly 运行时动态插桩模式)  <br />
+https://www.jacoco.org/jacoco/trunk/doc/agent.html  <br />
+https://www.jacoco.org/jacoco/trunk/doc/cli.html  <br />
+<br />
+还可以搜索并参考 "Jacoco" 相关文章，例如：  <br />
+Java 覆盖率 Jacoco 插桩的不同形式总结和踩坑记录  <br />
+https://testerhome.com/topics/20632
+
+
+更多常见问题 <br />
+https://github.com/TommyLemon/APIAuto/issues
+
+<br />
+
+### 感谢开源
+* jsonon
+* editor.md
+* vue.js
+
 ### 技术交流
 ##### 关于作者
 [https://github.com/TommyLemon](https://github.com/TommyLemon)<br />
+<img width="1279" alt="image" src="https://user-images.githubusercontent.com/5738175/199979403-ace8b574-cd64-4582-8c19-b51571945214.png">
 
-##### QQ群聊
-734652054（新）<a target="_blank" style="bottom:2px;padding-top:4px" href="https://qm.qq.com/cgi-bin/qm/qr?k=rJLwYzITdoQBfiGUOjMrM3eJDyks1tJP&jump_from=webapi"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="APIJSON-Free" title="APIJSON技术讨论群" style="bottom:2px;margin-top:4px" /></a>    
-607020115（旧）<a target="_blank" style="bottom:2px;padding-top:4px" href="https://qm.qq.com/cgi-bin/qm/qr?k=1wnUodOM6ngXnl0rubf06DuAUbOX-u44&jump_from=webapi"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="APIJSON-Fee" title="APIJSON付费解决群"  style="bottom:2px;margin-top:4px" /></a>    
-
-如果有什么问题或建议可以 [提ISSUE](https://github.com/TommyLemon/UnitAuto/issues) 或 加群，交流技术，分享经验。<br >
-如果你解决了某些bug，或者新增了一些功能，欢迎 [贡献代码](https://github.com/TommyLemon/UnitAuto/pulls)，感激不尽。
+如果有什么问题或建议可以 [去 APIAuto 提 issue](https://github.com/TommyLemon/APIAuto/issues)，交流技术，分享经验。<br >
+如果你解决了某些 bug，或者新增了一些功能，欢迎 [提 PR 贡献代码](https://github.com/Tencent/APIJSON/blob/master/CONTRIBUTING.md)，感激不尽。
 <br />
 <br />
 
 ### 其它项目
-[APIJSON](https://github.com/TommyLemon/APIJSON) 腾讯零代码、热更新、自动化 ORM 库 🏆 后端接口和文档自动化，前端(客户端) 定制返回 JSON 的数据和结构
-<br />
-[APIAuto](https://github.com/TommyLemon/APIAuto) 敏捷开发最强大易用的 HTTP 接口工具，机器学习零代码测试、生成代码与静态检查、生成文档与光标悬浮注释
-<br />
-<br />
+
+[APIJSON](https://github.com/Tencent/APIJSON) 🚀 腾讯零代码、全功能、强安全 ORM 库 🏆 后端接口和文档零代码，前端(客户端) 定制返回 JSON 的数据和结构
+
+[APIAuto](https://github.com/TommyLemon/APIAuto) 敏捷开发最强大易用的 HTTP 接口工具，机器学习零代码测试、生成代码与静态检查、生成文档与光标悬浮注释，集 文档、测试、Mock、调试、管理 于一体的一站式体验
+
+[SQLAuto](https://github.com/TommyLemon/SQLAuto) 智能零代码自动化测试 SQL 语句执行结果的数据库工具，任意增删改查、任意 SQL 模板变量、一键批量生成参数组合、快速构造大量测试数据
+
+[apijson-doc](https://github.com/vincentCheng/apijson-doc) APIJSON 官方文档，提供排版清晰、搜索方便的文档内容展示，包括设计规范、图文教程等
+
+[APIJSONdocs](https://github.com/ruoranw/APIJSONdocs) APIJSON 英文文档，提供排版清晰的文档内容展示，包括详细介绍、设计规范、使用方式等
+
+[apijson.org](https://github.com/APIJSON/apijson.org) APIJSON 官方网站，提供 APIJSON 的 功能简介、登记用户、作者与贡献者、相关链接 等
+
+[APIJSON.NET](https://github.com/liaozb/APIJSON.NET) C# 版 APIJSON ，支持 MySQL, PostgreSQL, SQL Server, Oracle, SQLite
+
+[apijson-go](https://github.com/glennliao/apijson-go) Go 版 APIJSON ， 基于Go(>=1.18) + GoFrame2, 支持查询、单表增删改、权限管理等
+  
+[apijson-go](https://gitee.com/tiangao/apijson-go) Go 版 APIJSON ，支持单表查询、数组查询、多表一对一关联查询、多表一对多关联查询 等
+
+[apijson-hyperf](https://github.com/kvnZero/hyperf-APIJSON.git) PHP 版 APIJSON，基于 Hyperf 支持 MySQL
+
+[APIJSON-php](https://github.com/xianglong111/APIJSON-php) PHP 版 APIJSON，基于 ThinkPHP，支持 MySQL, PostgreSQL, SQL Server, Oracle 等
+
+[apijson-php](https://github.com/qq547057827/apijson-php) PHP 版 APIJSON，基于 ThinkPHP，支持 MySQL, PostgreSQL, SQL Server, Oracle 等
+
+[apijson-node](https://github.com/kevinaskin/apijson-node) 字节跳动工程师开源的 Node.ts 版 APIJSON，提供 nestjs 和 typeorm 的 Demo 及后台管理
+
+[uliweb-apijson](https://github.com/zhangchunlin/uliweb-apijson) Python 版 APIJSON，支持 MySQL, PostgreSQL, SQL Server, Oracle, SQLite 等
+
+[apijson-practice](https://github.com/vcoolwind/apijson-practice) BAT 技术专家开源的 APIJSON 参数校验注解 Library 及相关 Demo
+
+[Android-ZBLibrary](https://github.com/TommyLemon/Android-ZBLibrary) Android MVP 快速开发框架，Demo 全面，注释详细，使用简单，代码严谨
+
 
 ### 持续更新
 [https://github.com/TommyLemon/UnitAuto/commits/master](https://github.com/TommyLemon/UnitAuto/commits/master)
-<br />
-<br />
 
 ### 我要赞赏
-创作不易，右上角点 ⭐ Star 支持下吧，谢谢 ^_^ <br />
+创作不易，右上角点 ⭐ Star 支持下本项目吧，谢谢 ^_^ <br />
 [https://gitee.com/TommyLemon/UnitAuto](https://gitee.com/TommyLemon/UnitAuto)
 <br />
 <br />
