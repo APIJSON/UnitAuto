@@ -29,9 +29,13 @@
 已被 互联网教育智能技术及应用国家工程实验室 收录。
 https://github.com/TommyLemon/APIAuto/issues/19
 
-<img width="1494" alt="image" src="https://user-images.githubusercontent.com/5738175/221088793-f60d1a43-fdb4-4cda-84ef-04fdee1aa472.png">
-<img width="1494" alt="image" src="https://raw.githubusercontent.com/TommyLemon/StaticResources/master/UnitAuto/UnitAuto-RandomTest-Parent-small.jpg">
+<img width="1495" alt="image" src="https://user-images.githubusercontent.com/5738175/221088793-f60d1a43-fdb4-4cda-84ef-04fdee1aa472.png">
+<img width="1495" alt="image" src="https://raw.githubusercontent.com/TommyLemon/StaticResources/master/UnitAuto/UnitAuto-RandomTest-Parent-small.jpg">
 <img width="1495" alt="image" src="https://user-images.githubusercontent.com/5738175/224038704-fef31759-c349-40cb-a252-e0c8cff55110.png">
+
+<img width="1495" alt="image" src="https://github.com/TommyLemon/UnitAuto/assets/5738175/4c643a5a-b693-42a1-bb55-3eee61b97f2a">
+<img width="1495" alt="image" src="https://github.com/TommyLemon/UnitAuto/assets/5738175/12b2a81b-bc41-413c-b748-956bbdec7409">
+<img width="1495" alt="image" src="https://github.com/TommyLemon/UnitAuto/assets/5738175/842e1783-abc7-4cae-aaa5-f7693c69b4ce">
 
 
 ### 特点优势
@@ -445,6 +449,33 @@ npm i xxx
 链接 host 后可以加上 /unit，例如 http://localhost:3001/unit/test/start <br />
 通过这个接口来放宽前端执行时查询测试用例、参数配置等列表的条数，一次可批量执行更多用例。
 
+<br />
+
+### 统计覆盖率
+<img width="1495" alt="image" src="https://github.com/TommyLemon/UnitAuto/assets/5738175/e3e54fd5-9a42-4a26-a58d-853168fe0682">
+
+
+#### 1.点右侧 Maven > Lifecycle > package 或 运行以下命令 来把项目打成 jar 包：
+```sh
+mvn clean package
+```
+完成后 target 目录应该有 unitauto-java-demo.jar(springboot-maven-plugin 重新打包) 和 unitauto-java-demo.jar.original(maven 直接打包) 这样的两个 jar 包
+
+#### 2.使用 JaCoCo Agent 作为 Java Agent 来运行 jar 包
+```sh
+java -javaagent:libs/jacocoagent.jar=destfile=../jacoco.exec,includes=*,output=tcpserver,port=6300,address=127.0.0.1 -jar target/unitauto-java-demo-2.9.0.jar
+```
+
+#### 3.点右侧 Maven > Plugins > jacoco > jacoco:dump > jacoco:report 或 运行以下命令 来导出覆盖率数据和生成查看报告的 HTML 网页
+```sh
+jacoco dump
+jacoco report 
+```
+完成后 target 目录应该有 jacoco.exec(覆盖率数据) 和 site/jacoco 目录且里面有 index.html 网页入口文件、jacoco-resources 资源文件夹 等。 <br />
+用 Chrome/Firefox 浏览器打开 index.html，可以看到覆盖率报告。
+
+<img width="1495" alt="image" src="https://github.com/TommyLemon/UnitAuto/assets/5738175/4c643a5a-b693-42a1-bb55-3eee61b97f2a">
+
 <br /><br />
 
 ### 常见问题
@@ -459,21 +490,34 @@ https://github.com/Tencent/APIJSON/issues/85
 #### 3.托管服务器访问不了
 不能代理接口、不能展示文档、不能对断言结果纠错 等 <br />
 https://github.com/TommyLemon/APIAuto/issues/12
-
+  
 #### 4.apijson.cn 访问不了
 托管服务地址改为 http://47.98.196.224:8080  <br />
 https://github.com/TommyLemon/APIAuto/issues/13
-
+ 
 #### 5.如何统计行覆盖率/分支覆盖率？
-Java/Kotlin 可以用 Jacoco(on-the-fly 运行时动态插桩模式)  <br />
+##### Java/Kotlin 可以用 Jacoco(on-the-fly 运行时动态插桩模式)
 https://www.jacoco.org/jacoco/trunk/doc/agent.html  <br />
 https://www.jacoco.org/jacoco/trunk/doc/cli.html  <br />
 <br />
-还可以搜索并参考 "Jacoco" 相关文章，例如：  <br />
+还可以搜索并参考 "JaCoCo" 相关文章，例如：  <br />
 Java 覆盖率 Jacoco 插桩的不同形式总结和踩坑记录  <br />
 https://testerhome.com/topics/20632
 
+##### Go 可以用 goc 或 gcov 
+我们是如何做go语言系统测试覆盖率收集的？  <br />
+https://zhuanlan.zhihu.com/p/149890900  <br />
+  
+Gcov 查看代码覆盖率  <br />
+https://zhuanlan.zhihu.com/p/410077415
 
+##### Python 可以使用 coverage
+
+Python单元测试框架覆盖率-Coverage  <br />
+https://cloud.tencent.com/developer/article/1513269
+
+<br />
+  
 更多常见问题 <br />
 https://github.com/TommyLemon/APIAuto/issues
 
