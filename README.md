@@ -47,6 +47,12 @@ UnitAuto 不需要写任何代码，直接读取方法的属性，自动注入�
 更不用为 无法有效地 Mock 环境相关类、第三方登录未提供 Mock 支持 等而头疼，<br />
 只要被测方法满足 有 return 值、有 interface 回调、改变成员变量 field 这 3 点中至少一点就能测。
 
+#### 腾讯内先后被 微信支付部门、IEG 工具开发组、CDG 金融支付组、IEG PC 游戏平台部 邀请分享了 
+* 零代码测试工具与实践(API•单元•UI)
+* 零代码开发和测试(API测试•单元测试•API开发)
+* 零代码开发和测试(API测试•单元测试•API开发)
+* 零代码开发和测试(接口测试•单元测试•接口开发)
+
 #### 质效无双线上技术访谈-零代码智能测试工具实践介绍-第11期
 https://testwo.cn1.quickconnect.cn/vs/sharing/iiP8VK1C#!aG9tZV92aWRlby0xMQ==
 ![https://testwo.cn1.quickconnect.cn/vs/sharing/iiP8VK1C#!aG9tZV92aWRlby0xMQ==](https://user-images.githubusercontent.com/5738175/179578082-0c72a715-c9b3-49f7-bf1c-45f963c6eb4f.png)
@@ -531,7 +537,7 @@ https://github.com/TommyLemon/APIAuto/issues
 ### 技术交流
 ##### 关于作者
 [https://github.com/TommyLemon](https://github.com/TommyLemon)<br />
-<img width="1279" alt="image" src="https://user-images.githubusercontent.com/5738175/199979403-ace8b574-cd64-4582-8c19-b51571945214.png">
+<img width="1280" src="https://github.com/TommyLemon/UIGO/assets/5738175/ec77df98-ff9b-43aa-b2f1-2fce2549d276">
 
 如果有什么问题或建议可以 [去 APIAuto 提 issue](https://github.com/TommyLemon/APIAuto/issues)，交流技术，分享经验。<br >
 如果你解决了某些 bug，或者新增了一些功能，欢迎 [提 PR 贡献代码](https://github.com/Tencent/APIJSON/blob/master/CONTRIBUTING.md)，感激不尽。
@@ -545,6 +551,8 @@ https://github.com/TommyLemon/APIAuto/issues
 [APIAuto](https://github.com/TommyLemon/APIAuto) 敏捷开发最强大易用的 HTTP 接口工具，机器学习零代码测试、生成代码与静态检查、生成文档与光标悬浮注释，集 文档、测试、Mock、调试、管理 于一体的一站式体验
 
 [SQLAuto](https://github.com/TommyLemon/SQLAuto) 智能零代码自动化测试 SQL 语句执行结果的数据库工具，任意增删改查、任意 SQL 模板变量、一键批量生成参数组合、快速构造大量测试数据
+
+[UIGO](https://github.com/TommyLemon/UIGO) 📱 零代码快准稳 UI 智能录制回放平台 🚀 自动兼容任意宽高比分辨率屏幕，自动精准等待网络请求，录制回放快、准、稳！
 
 [apijson-doc](https://github.com/vincentCheng/apijson-doc) APIJSON 官方文档，提供排版清晰、搜索方便的文档内容展示，包括设计规范、图文教程等
 
